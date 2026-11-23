@@ -63,5 +63,5 @@ secrets.json
 Thumbs.db
 Desktop.ini
 
-/tools/ffmpeg.exe
-/tools/ffprobe.exe
+/tools/
+/runtime/

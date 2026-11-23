@@ -8,23 +8,15 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <PlatformTarget>x64</PlatformTarget>
     <Platforms>x64</Platforms>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <EnableDefaultEmbeddedResourceItems>false</EnableDefaultEmbeddedResourceItems>
+    <IncludeBundledTools Condition="'$(IncludeBundledTools)' == ''">false</IncludeBundledTools>
+    <IncludeBundledModels Condition="'$(IncludeBundledModels)' == ''">false</IncludeBundledModels>
   </PropertyGroup>
 
-  <!-- Partial Form1 source files share one CLR type. Designer-created sidecar
-       resources need distinct names instead of all becoming Form1.resources.
-       Leave Form1.resx and its localized variants on the standard WinForms names. -->
   <ItemGroup>
-    <EmbeddedResource Update="Form1.History.resx;Form1.Workspace.resx;Form1.Analysis.resx;Form1.AnalysisIcons.resx;Form1.VideoReview.resx;Form1.Designer.resx;Form1.Acceleration.resx;Form1.SpeakerRoles.resx">
-      <ManifestResourceName>$(RootNamespace).%(Filename)</ManifestResourceName>
-    </EmbeddedResource>
-  </ItemGroup>
-
-  <!-- Consolidated source files: safely ignore superseded copies left in the project root. -->
-  <ItemGroup>
-    <Compile Remove="tests\**\*.cs" />
-    <!-- Ignore obsolete replay-bubble files left by copying an update over an older tree. -->
-    <Compile Remove="Form1.ReplayOverlay.cs;ReplayOverlayWindow.cs;ReplayOverlayTimeline.cs;ReplayCommsDock.cs;ReplayHudRoster.cs" />
-    <Compile Remove="NemoAcceleration.cs;TranscriptionPipeline.cs;TranscriptAlignment.cs;TranscriptPostProcessor.Continuity.cs;SpeakerRoleEvidence.cs;SpeakerRoleGameContext.cs;SpeakerRoleEditing.cs;LeagueAliasCatalog.cs;LeagueMatchVocabulary.cs;LeagueAliasPostProcessing.cs;LeagueSpeechVocabulary.cs;ChampSelectData.cs;GameData.cs;PostGameData.cs;LiveGameResponse.cs;GameMediaTiming.cs;LeagueAPI.cs;BlindPickDraft.cs;Form1.Acceleration.cs;Form1.SpeakerRoles.cs;SpeakerRoleEditorDialog.cs;RecordingHistory.cs;Inference.cs" />
+    <EmbeddedResource Include="Form1.resx" LogicalName="$(RootNamespace).Form1.resources" />
+    <Compile Include="Program.cs;Form1.cs;Form1.Designer.cs;src\**\*.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -33,7 +25,6 @@
     <PackageReference Include="NAudio" Version="3.1.1-preview.2" />
     <PackageReference Include="Newtonsoft.Json" Version="14.0.1-beta2" />
     <PackageReference Include="ScreenRecorderLib" Version="7.0.1" />
-    <PackageReference Include="System.CodeDom" Version="9.0.14" />
     <PackageReference Include="System.Management" Version="9.0.14" />
     <PackageReference Include="Whisper.net" Version="1.9.1" />
     <PackageReference Include="Whisper.net.Runtime" Version="1.9.1" />
@@ -48,6 +39,7 @@
     <EmbeddedResource Include="VideoReview\player.html" LogicalName="VideoReview.player.html" />
     <EmbeddedResource Include="VideoReview\player.css" LogicalName="VideoReview.player.css" />
     <EmbeddedResource Include="VideoReview\player.js" LogicalName="VideoReview.player.js" />
+    <EmbeddedResource Include="download-assets.json" LogicalName="download-assets.json" />
   </ItemGroup>
 
   <!-- WebView2 supplies both desktop UI adapters; this application uses WinForms. -->
@@ -58,44 +50,31 @@
   </Target>
 
   <ItemGroup>
-    <Compile Remove="runtime\alignment\**\*;models\alignment\**\*" />
-    <None Remove="runtime\alignment\**\*;models\alignment\**\*;setup\Build-AlignmentRuntime.ps1;setup\prepare_alignment_model.py;setup\verify_alignment_runtime.py" />
-    <Content Remove="runtime\alignment\**\*;models\alignment\**\*" />
-    <None Remove="models\**\*;runtime\nemo\**\*" />
-    <Content Remove="models\**\*;runtime\nemo\**\*" />
-    <Content
-      Include="models\**\*;runtime\nemo\**\*"
-      Exclude="models\alignment\**\*"
-      CopyToOutputDirectory="PreserveNewest"
-      CopyToPublishDirectory="PreserveNewest"
-    />
+    <None Remove="models\**\*" />
+    <Content Include="runtime\**\*;tools\**\*" CopyToOutputDirectory="PreserveNewest">
+      <CopyToPublishDirectory Condition="'$(IncludeBundledTools)' == 'true'">PreserveNewest</CopyToPublishDirectory>
+      <CopyToPublishDirectory Condition="'$(IncludeBundledTools)' != 'true'">Never</CopyToPublishDirectory>
+    </Content>
+    <None Remove="runtime\**\*;tools\**\*" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Properties\Resources.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Properties\Settings.Designer.cs">
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-    </Compile>
+    <Content Include="models\**\*" Exclude="models\alignment\**\*" CopyToOutputDirectory="PreserveNewest">
+      <CopyToPublishDirectory Condition="'$(IncludeBundledModels)' == 'true'">PreserveNewest</CopyToPublishDirectory>
+      <CopyToPublishDirectory Condition="'$(IncludeBundledModels)' != 'true'">Never</CopyToPublishDirectory>
+    </Content>
+    <None Update="THIRD_PARTY_NOTICES.md;Notices\**\*;docs\**\*;redistribution\ffmpeg\**\*" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
   </ItemGroup>
 
-  <ItemGroup>
-    <EmbeddedResource Update="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
+  <Target Name="ValidateBundledFFmpeg" BeforeTargets="ComputeFilesToPublish" Condition="'$(IncludeBundledTools)' == 'true'">
+    <ItemGroup>
+      <BundledFFmpeg Include="tools\**\ffmpeg.exe;tools\**\ffprobe.exe" />
+    </ItemGroup>
+    <Error Condition="'@(BundledFFmpeg)' != '' and (!Exists('redistribution\ffmpeg\LICENSE.txt') or !Exists('redistribution\ffmpeg\BUILDINFO.txt') or !Exists('redistribution\ffmpeg\SOURCE.txt'))"
+           Text="Bundled FFmpeg needs its exact license, build information, and corresponding-source distribution record in redistribution/ffmpeg. See docs/REDISTRIBUTION.md, or publish with IncludeBundledTools=false to use first-run upstream downloads." />
+  </Target>
 
   <ItemGroup>
-    <None Update="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
     <None
       Update="league_aliases.json"
       CopyToOutputDirectory="PreserveNewest"
@@ -103,16 +82,6 @@
     />
     <None
       Update="role_word_weights.json"
-      CopyToOutputDirectory="PreserveNewest"
-      CopyToPublishDirectory="PreserveNewest"
-    />
-    <None
-      Update="tools\ffmpeg.exe"
-      CopyToOutputDirectory="PreserveNewest"
-      CopyToPublishDirectory="PreserveNewest"
-    />
-    <None
-      Update="tools\ffprobe.exe"
       CopyToOutputDirectory="PreserveNewest"
       CopyToPublishDirectory="PreserveNewest"
     />

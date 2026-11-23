@@ -1,0 +1,72 @@
+[
+  {
+    "Id": "ffmpeg",
+    "Name": "FFmpeg media tools (LGPL build)",
+    "Path": "tools/ffmpeg/bin/ffmpeg.exe",
+    "Url": "https://github.com/FFmpeg-Builds/FFmpeg-Builds/releases/download/autobuild-2026-10-31-12-59/ffmpeg-n8.1.3-27-g8dca1586f4-win64-lgpl-shared-8.1.zip",
+    "Size": 80356594,
+    "Hash": "5cef7bc48e513f3cee7c881e8b2999d835541edb1846c3e89443a67f8f8556ab",
+    "Algorithm": "SHA256",
+    "Anchor": "bin/ffmpeg.exe"
+  },
+  {
+    "Id": "nemo",
+    "Name": "NVIDIA NeMo diarization",
+    "Path": "models/Nemotron-3-Diarization.q8_0.gguf",
+    "Url": "https://huggingface.co/nvidia/Nemotron-3-Diarization/resolve/52a432672732425e4c19765b9fec9b5810e6f4ba/Nemotron-3-Diarization.q8_0.gguf",
+    "Size": 107012128,
+    "Hash": "08456d9e22cd9a323c0364d98375f3746d6e68507ebb705cd46438c534c7a3a1",
+    "Algorithm": "SHA256",
+    "Anchor": ""
+  },
+  {
+    "Id": "whisper",
+    "Name": "Whisper large-v3 Q5",
+    "Path": "models/ggml-large-v3-q5_0.bin",
+    "Url": "https://huggingface.co/ggerganov/whisper.cpp/resolve/5359861c739e955e79d9a303bcbc70fb988958b1/ggml-large-v3-q5_0.bin",
+    "Size": 1081140203,
+    "Hash": "d75795ecff3f83b5faa89d1900604ad8c780abd5739fae406de19f23ecd98ad1",
+    "Algorithm": "SHA256",
+    "Anchor": ""
+  },
+  {
+    "Id": "vad",
+    "Name": "Silero VAD",
+    "Path": "models/ggml-silero-v6.2.0.bin",
+    "Url": "https://huggingface.co/ggml-org/whisper-vad/resolve/9ffd54a1e1ee413ddf265af9913beaf518d1639b/ggml-silero-v6.2.0.bin",
+    "Size": 885098,
+    "Hash": "2aa269b785eeb53a82983a20501ddf7c1d9c48e33ab63a41391ac6c9f7fb6987",
+    "Algorithm": "SHA256",
+    "Anchor": ""
+  },
+  {
+    "Id": "emotion",
+    "Name": "audEERING Outlook (non-commercial)",
+    "Path": "models/emotion/audeering/model.onnx",
+    "Url": "https://zenodo.org/records/6221127/files/w2v2-L-robust-12.6bc4a7fd-1.1.0.zip?download=1",
+    "Size": 609889780,
+    "Hash": "76fef8c090addd7fcee60c64e9536ced",
+    "Algorithm": "MD5",
+    "Anchor": "model.onnx"
+  },
+  {
+    "Id": "nemo-runtime",
+    "Name": "NeMo CPU runtime",
+    "Path": "runtime/nemo/bin/nemo-speech.exe",
+    "Url": "https://github.com/NVIDIA/NeMo-Speech.cpp/releases/download/v0.3.0/nemo-speech-0.3.0-windows-x86_64-cpu.zip",
+    "Size": 8694509,
+    "Hash": "4ed9740e361e4653f56c3dce7d1e81883a1c8b831c1bd7d01567fff1130b5b05",
+    "Algorithm": "SHA256",
+    "Anchor": "bin/nemo-speech.exe"
+  },
+  {
+    "Id": "syncthing",
+    "Name": "Syncthing sharing engine",
+    "Path": "runtime/syncthing/syncthing.exe",
+    "Url": "https://github.com/syncthing/syncthing/releases/download/v2.1.7/syncthing-windows-amd64-v2.1.7.zip",
+    "Size": 14281765,
+    "Hash": "3ce7da770f546a8d02b65b2e7ee31f2a3b8b7c3f990ede045590cca4172ecfe1",
+    "Algorithm": "SHA256",
+    "Anchor": "syncthing.exe"
+  }
+]

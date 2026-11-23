@@ -1,22 +1,9 @@
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
 using System.Management;
-using System.Text;
 using System.Text.Json;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using LeagueTelemetry;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Windows.ApplicationModel;
-using Windows.Gaming.Input;
-using Windows.Storage;
-using Windows.Storage.FileProperties;
-using Windows.Storage.Streams;
 
 namespace League_Data_Recorder;
 
@@ -87,6 +74,7 @@ public partial class Form1 : Form
         InitializeConsolidatedWorkspace();
         InitializeVideoReview();
         InitializeReplayAudio();
+        InitializeGameSharing();
         AppTheme.Apply(this);
     }
 
@@ -1488,6 +1476,7 @@ public partial class Form1 : Form
         try
         {
             await StopSession();
+            await StopBackgroundServicesAsync();
 
             allowClose = true;
             Close();

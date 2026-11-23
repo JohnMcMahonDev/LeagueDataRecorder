@@ -534,7 +534,7 @@
     state.toneRevision++; state.toneLayoutKey = ""; state.activeTone = null;
     $("toneStatus").textContent = state.toneStatus;
     $("toneReadout").textContent = "Hover or focus a window for the team's measured Outlook. Click to listen.";
-    $("toneHint").textContent = "0–100 · rolling audio context · line interpolates between measurements · click to seek";
+    $("toneHint").textContent = "0–100 · rolling audio context · silent windows are left blank · click to seek";
     renderToneTimeline(); highlightTone();
   }
   function toneColor(value) {
@@ -563,9 +563,13 @@
     return d;
   }
   function outlookRuns(cues) {
-    // Connect the team measurements across speech gaps. The connecting curve is
-    // interpolation; no emotion scores are invented or stored for silence.
-    return cues.length ? [cues] : [];
+    // A missing five-second measurement is a real gap, never a neutral score.
+    const runs = [];
+    for (const cue of cues) {
+      if (!runs.length || cue.start > runs.at(-1).at(-1).end + .001) runs.push([]);
+      runs.at(-1).push(cue);
+    }
+    return runs;
   }
   function svgElement(tag, attributes = {}) {
     const node = document.createElementNS("http://www.w3.org/2000/svg", tag);
@@ -620,11 +624,7 @@
     $("toneMarkers").append(chart); state.activeTone = null;
   }
   function nearestOutlook(videoTime) {
-    let nearest = null, distance = Infinity;
-    for (const cue of state.toneVisible) {
-      const d = Math.abs(cue.plotTime - videoTime); if (d < distance) { distance = d; nearest = cue; }
-    }
-    return nearest;
+    return state.toneVisible.find(c => toneVideoTime(c.start) <= videoTime && toneVideoTime(c.end) > videoTime) ?? null;
   }
   function highlightTone() {
     if (!hasMedia()) return;
@@ -910,8 +910,7 @@
       if (state.alignAudio) {
         holdPlayback();
         if (audio.readyState === 0) return;
-        // Assign the latest target even if a previous seek is still in flight.
-        // Ignoring a new seek while audio.seeking is true was the scrubbing race.
+        // Retain the latest target while another seek is in flight.
         if (Math.abs(drift) > .025) {
           state.lastAudioSeek = now;
           audio.playbackRate = state.rate;
@@ -1049,10 +1048,10 @@
   });
   $("toneMarkers").addEventListener("pointermove", e => {
     const rect = e.currentTarget.getBoundingClientRect(), at = clamp((e.clientX - rect.left) / Math.max(1, rect.width), 0, 1) * duration();
-    const cue = nearestOutlook(at); const text = cue ? toneDescription(cue) + " · nearest measured window" : state.toneStatus;
+    const cue = nearestOutlook(at); const text = cue ? toneDescription(cue) : "No speech estimate in this window";
     $("toneHint").textContent = text; $("toneReadout").textContent = text;
   });
-  $("toneMarkers").addEventListener("pointerleave", () => { $("toneHint").textContent = "0–100 · rolling audio context · line interpolates between measurements · click to seek"; });
+  $("toneMarkers").addEventListener("pointerleave", () => { $("toneHint").textContent = "0–100 · rolling audio context · silent windows are left blank · click to seek"; });
   $("toneMarkers").addEventListener("click", e => {
     const rect = e.currentTarget.getBoundingClientRect(); if (rect.width > 0) seekMedia(clamp((e.clientX - rect.left) / rect.width, 0, 1) * duration());
   });
