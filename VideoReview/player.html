@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src data:; media-src 'self'; connect-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>Game video review</title>
+  <link rel="stylesheet" href="/player.css">
+  <script defer src="/player.js"></script>
+</head>
+<body>
+  <main id="player" aria-label="Game video and voice comms">
+    <header><span id="title">Video review</span><span class="badge">VIDEO + COMMS</span></header>
+    <div id="stage" tabindex="0" aria-label="Video. Space to play, arrow keys to seek, F for fullscreen.">
+      <video id="video" preload="auto" playsinline disablepictureinpicture></video>
+      <audio id="audio" preload="auto"></audio>
+      <div id="empty"><strong id="emptyTitle">Select a recording</strong><span id="emptyDetail">Play the video with synchronized voice comms.</span></div>
+      <div id="mediaLoading" role="status" hidden><span class="loading-spinner" aria-hidden="true"></span><span id="mediaLoadingText">Loading preview…</span></div>
+      <div id="captions" aria-label="Current comms" role="region"></div>
+      <div id="objectiveBanner" aria-label="Current objective call" hidden>
+        <span id="objectivePortrait"></span>
+        <div class="objective-content"><div class="speaker"><strong id="objectiveBy"></strong></div><strong id="objectiveLabel"></strong></div>
+      </div>
+    </div>
+    <div id="status" role="status">Select a recording to play its video.</div>
+    <div class="controls">
+      <div id="fightTimeline" class="fight-timeline" hidden>
+        <button id="fightListToggle" type="button" aria-expanded="false" aria-controls="fightList" title="Show all estimated fights">Fights ▾</button>
+        <div id="fightMarkers" role="group" aria-label="Estimated fights. Score: allies–enemies. Green and red show each team's share of kills; gray means unknown. Hover or focus for champions; click to seek."></div>
+        <span id="fightCount"></span>
+      </div>
+      <div id="fightList" role="region" aria-label="Estimated fights by game time" hidden></div>
+      <div id="fightTooltip" role="tooltip" hidden></div>
+      <div id="objectiveTimeline" class="objective-timeline" hidden>
+        <button id="objectiveListToggle" type="button" aria-expanded="false" aria-controls="objectiveList" title="Show objective calls">Calls ▾</button>
+        <div id="objectiveMarkers" role="group" aria-label="Objective calls shown as purple diamonds. Click to seek and display the call."></div>
+        <span id="objectiveCount"></span>
+      </div>
+      <div id="objectiveList" role="region" aria-label="Objective calls by recording time" hidden></div>
+      <div id="takenTimeline" class="taken-timeline" hidden>
+        <button id="takenListToggle" type="button" aria-expanded="false" aria-controls="takenList" title="Recorded objective captures and structure destructions">Objectives ▾</button>
+        <div id="takenMarkers" role="group" aria-label="Recorded objectives shown as pictograms. Green border: allied; red: enemy; gold: unknown. Click to seek or open Objectives for names and times."></div>
+        <span id="takenCount"></span>
+      </div>
+      <div id="takenList" role="region" aria-label="Recorded objective captures by game time" hidden></div>
+      <div id="goldTimeline" class="gold-timeline" hidden>
+        <span id="goldLabel" title="Allied cumulative gold minus enemy cumulative gold">Gold lead</span>
+        <button id="goldMarkers" type="button" aria-label="Team gold advantage. Green is an allied lead; red is an enemy lead. Click to seek."></button>
+        <span id="goldNow">—</span>
+      </div>
+      <div id="toneTimeline" class="tone-timeline" hidden>
+        <button id="toneToggle" type="button" aria-expanded="false" aria-controls="toneDetails" title="Estimated team Outlook across the game">Outlook ▾</button>
+        <div id="toneMarkers" role="slider" tabindex="0" aria-label="Team Outlook graph. Click or use arrow keys to seek."></div>
+        <span id="toneNow" aria-label="Current estimated tone">—</span>
+        <span id="toneHint">0–100 · smoothed between measured windows · dots preserve highs and lows · click to seek</span>
+      </div>
+      <div id="toneDetails" role="region" aria-label="Comms tone details" hidden>
+        <strong>Team Outlook</strong><p id="toneBaseline"></p><span class="tone-estimate">Estimated from voice audio</span>
+        <div class="tone-legend"><span class="tone-negative">Lower</span><span>50 / 100</span><span class="tone-positive">Higher</span></div>
+        <p>Each five-second window averages each measured player's vocal tone, then averages those players equally. The graph uses a shape-preserving smooth curve through the measurements, with a fixed 0–100 scale and gaps across long unmeasured periods. Missing players are excluded. Personal general Outlook scores are saved independently and shown in Comms analysis and Analysis.</p>
+        <p id="toneReadout">Hover or focus a segment for its scores. Click to listen.</p>
+        <p id="toneStatus"></p>
+      </div>
+      <fieldset id="timelinePicker" hidden><legend>Visible timelines</legend>
+        <label><input type="checkbox" value="fights" checked> Fights</label>
+        <label><input type="checkbox" value="calls" checked> Calls</label>
+        <label><input type="checkbox" value="objectives" checked> Objectives</label>
+        <label><input type="checkbox" value="gold" checked> Gold</label>
+        <label><input type="checkbox" value="outlook" checked> Outlook</label>
+      </fieldset>
+      <div class="timeline"><span id="elapsed">00:00</span><input id="seek" type="range" min="0" max="1000" step="0.1" value="0" aria-label="Seek video"><span id="duration">00:00</span></div>
+      <div class="toolbar">
+        <button id="play" class="primary" type="button" aria-label="Play" disabled>Play</button>
+        <button id="back" class="skip" type="button" title="Back 10 seconds" disabled>−10s</button>
+        <button id="forward" class="skip" type="button" title="Forward 10 seconds" disabled>+10s</button>
+        <select id="speed" aria-label="Playback speed"><option value="0.5">0.5×</option><option value="0.75">0.75×</option><option value="1" selected>1×</option><option value="1.25">1.25×</option><option value="1.5">1.5×</option><option value="2">2×</option></select>
+        <button id="mute" type="button" aria-label="Mute voice audio" aria-pressed="false">Sound</button>
+        <input id="volume" type="range" min="0" max="1" step="0.05" value="0.8" aria-label="Volume">
+        <span class="spacer"></span>
+        <button id="timelineToggle" type="button" aria-expanded="false" aria-controls="timelinePicker">Timelines</button>
+        <button id="comms" type="button" aria-pressed="true" title="Show or hide speech cards">Comms</button>
+        <button id="fullscreen" type="button" title="Fullscreen (F). Escape to return." aria-label="Enter fullscreen">Expand</button>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

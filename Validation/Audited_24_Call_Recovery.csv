@@ -1,0 +1,25 @@
+﻿call_id,source_time,category,original_wording,meaning,recovered,fully_resolved,baseline_matches,updated_matches,targets,scopes,call_kinds,notes
+C003,02:02.0,Tracking,"If he's doing it, he's doing it like now-ish, next like 10 seconds.",Three-camp gank likely now / within ten seconds,False,False,0,0,,,,No reliable current actor/route context. Preserve the existing 8-second target context limit; do not infer enemy jungle identity from a stale topic.
+C007,03:15.9,Summoner,"My wave is mega good for me and this dergot has no sum, I mean this sinch has no sums, so like I don't even know this.",No summoner spells; individual spells unspecified,True,False,0,1,Unresolved target,Unknown,unavailable,Call recognized; owner/side remains explicitly unresolved. Do not count as a known champion spending a spell.
+C009,05:20.0,Tracking,"Oh, he is skipping camps to...",Skipping camps; destination truncated,False,False,0,0,,,,No reliable current actor/route context. Preserve the existing 8-second target context limit; do not infer enemy jungle identity from a stale topic.
+C010,05:26.6,Objective,Look at drake. / Go to dragon?,Look at / propose going to dragon,True,True,0,2,dragon; dragon,Team; Team,setup; setup,
+C012,06:43.9,Ultimate,I can come with ult if they fight it.,Can join with ultimate if they fight,True,True,0,1,Pantheon,Self,available,
+C014,07:45.0,Summoner,He's ignited.,Ignite applied to enemy; exact target unspecified,True,False,0,1,Unresolved target,Unknown,applied,Call recognized; owner/side remains explicitly unresolved. Do not count as a known champion spending a spell.
+C021,13:57.0,Ultimate,"Yeah, almost in range for ult, we look for the fight though.",Almost in range to use R; wants fight,True,True,0,1,Pantheon,Self,available,
+C027,16:07.4,Objective,"You guys can get mid turret probably. / No, no, you go mid turret, go mid turret.",Take mid turret,True,True,0,2,mid tower; mid tower,Team; Team,take; setup,
+C028,16:21.9,Objective,"Oh, I mean we can top turret.",Take top turret as alternative,True,True,0,1,top tower,Team,take,
+C031,17:42.4,Tracking,Lee Sin is top side so you're good.,"Top side, so opposite-side action is safe",True,True,0,1,Lee Sin,Enemy,tracking,Useful jungle-side tracking now continues after 15:00; bare sightings remain excluded.
+C032,17:48.0,Objective,"Let's uh, we can drop Rift Bot.",Deploy Herald bot,True,True,0,1,herald bot,Team,deploy,
+C034,18:41.5,Ultimate,I can ult on him if you want to go.,Can ult onto target if team goes,True,False,0,1,Unidentified caller,Self,available,Call recognized; owner/side remains explicitly unresolved. Do not count as a known champion spending a spell.
+C036,21:23.5,Ultimate,I'm just gonna sprint here and ult on her.,Plans to run over and ult her,True,True,0,1,Pantheon,Self,available,
+C038,21:37.6,Objective,"Yeah, think we should just do Baron. / Just come to Baron. / Yeah, we can do it. / Baron is good. / We're going to go for Baron. / Baron. / Baron. / Baron. / Baron. / Baron. / Baron. / Baron. / Baron. / Baron. / Baron. / Baron. / Baron.",Take Baron / come to Baron,True,True,0,3,baron; baron; baron,Team; Team; Team,take; setup; setup,
+C041,22:06.4,Objective,"Oh yeah, when we have Xaya, I think we should remember it to like tell jungle to smite at 2400, so it's like super easy, secure.",Coordinate Smite with damage at 2400,True,True,0,1,baron,Team,secure,Concrete Smite instruction linked to the single recently called Baron; HP advice is not verified game data.
+C042,23:08.0,Summoner,Hey that's four flashes there. / Everyone but um.,Four enemy Flashes used,True,False,0,1,Players (side unresolved),Unknown,used,Call recognized; owner/side remains explicitly unresolved. Do not count as a known champion spending a spell.
+C043,23:12.0,Objective,I think we reset before drake.,Reset before dragon,True,True,0,1,dragon,Team,setup,
+C044,23:15.0,Ultimate,Yeah I can open back out with ult too.,Can use R to get back out / disengage,True,True,0,1,Xayah,Self,available,
+C046,23:40.2,Summoner,He might still have flash.,Might still have Flash,True,False,0,1,Unresolved target,Unknown,available,Call recognized; owner/side remains explicitly unresolved. Do not count as a known champion spending a spell.
+C049,24:03.0,Objective,I guess solo drake if you guys just want to push mid.,Solo dragon while team pushes mid,True,True,0,1,dragon,Team,take,
+C053,28:02.4,Objective,So the right place to just go dragon.,Go dragon as the current recommended play,True,True,0,1,dragon,Team,setup,
+C054,28:04.7,Summoner,Maybe I can flash you this time.,May use own Flash this time,True,True,0,1,Urgot,Self,available,
+C055,28:05.7,Summoner,There's no flash. / No flash on pass.,No Flash,True,False,0,1,Unresolved target,Unknown,unavailable,Call recognized; owner/side remains explicitly unresolved. Do not count as a known champion spending a spell.
+C058,30:23.9,Ultimate,"I don't wanna ult, I wanna save it.",Has R but wants to save it,True,True,0,1,Leona,Self,available,

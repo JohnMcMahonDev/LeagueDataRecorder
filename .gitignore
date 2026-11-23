@@ -1,0 +1,67 @@
+# Visual Studio / Rider local files
+.vs/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# .NET build, publish, and test output
+[Bb]in/
+[Oo]bj/
+[Aa]rtifacts/
+[Pp]ublish/
+[Tt]est[Rr]esults/
+coverage/
+*.nupkg
+*.snupkg
+
+# NuGet packages (keep restore configuration and lock files)
+packages/
+!packages/build/
+
+# Recorded games, audio, video, and generated game analysis
+# Keep source JSON, WAV assets, and other project resources elsewhere tracked.
+[Rr]ecordings/
+Game_*/
+Game_*_*.mp4
+Game_*_*.wav
+Game_*_*.json
+*.rofl
+
+# Downloaded inference model weights (keep setup docs and configuration)
+*.onnx
+*.onnx.data
+*.safetensors
+*.gguf
+*.ggml
+[Mm]odels/**/*.bin
+ggml-*.bin
+
+# Local credentials and private deployment settings
+.env
+.env.*
+!.env.example
+!.env.sample
+appsettings.Local.json
+appsettings.*.Local.json
+secrets.json
+*.pfx
+*.p12
+*.publishsettings
+*.pubxml.user
+
+# Logs, temporary files, and crash dumps
+*.log
+*.tmp
+*.temp
+*.bak
+*.dmp
+
+# Operating system metadata
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+/tools/ffmpeg.exe
+/tools/ffprobe.exe
