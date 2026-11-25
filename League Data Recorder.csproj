@@ -64,6 +64,7 @@
       <CopyToPublishDirectory Condition="'$(IncludeBundledModels)' != 'true'">Never</CopyToPublishDirectory>
     </Content>
     <None Update="THIRD_PARTY_NOTICES.md;Notices\**\*;docs\**\*;redistribution\ffmpeg\**\*" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <None Update="Launch-Diagnostics.cmd" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
   </ItemGroup>
 
   <Target Name="ValidateBundledFFmpeg" BeforeTargets="ComputeFilesToPublish" Condition="'$(IncludeBundledTools)' == 'true'">
